@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gató | Karachi’s Newest Cat Cafe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Petrona:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.3/dist/photoswipe.css">
+    <style>
+        :root {
+            --clay: #B35637; /* Extracted from PDF Logo */
+            --cream: #E8D8C3; /* Extracted from PDF Background */
+            --darkbrown: #3d2a22;
+        }
+        @font-face {
+            font-family: 'GabrielSans';
+            src: url('./assets/fonts/Gabriel-Sans-Normal.woff2') format('woff2');
+            font-weight: 100 900;
+            font-style: normal;
+        }
+        body { font-family: 'Petrona', serif; background-color: var(--cream); color: #3E322E; }
+        h1, h2, h3, .brand-font { font-family: 'GabrielSans', serif; }
+        .text-clay { color: var(--clay); }
+        .bg-clay { background-color: var(--clay); }
+        .border-clay { border-color: var(--clay); }
+        .bg-darkbrown { background-color: var(--darkbrown);}
+        
+        /* Custom Line Art Styling to match PDF */
+        .line-art-bg {
+            opacity: 0.1;
+            position: absolute;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="fixed w-full z-50 bg-[#E8D8C3]/90 backdrop-blur-sm border-b border-[#D1C3B0]">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <div class="flex flex-col leading-none">
+                <!-- <span class="text-2xl font-bold tracking-tight text-clay brand-font">gató gató</span>
+                <span class="text-[10px] uppercase tracking-[0.2em] text-stone-500">The City’s Living Cafè</span> -->
+                <img src="./assets/img/gato-logo-img.svg" class="w-20 h-20" alt="Gato Gato Logo">
+            </div>
+            <div class="hidden md:flex space-x-10 text-[11px] uppercase tracking-[0.3em] font-semibold text-stone-600">
+                <a href="#home" class="hover:text-clay transition">Home</a>
+                <a href="#about" class="hover:text-clay transition">Our Story</a>
+                <a href="#gallery" class="hover:text-clay transition">Gallery</a>
+                <a href="#contact" class="hover:text-clay transition">Visit Us</a>
+            </div>
+            <a href="#contact" class="bg-clay text-[#E8D8C3] px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:opacity-90 transition">
+                Our Menu
+            </a>
+        </div>
+    </nav>
+
+    <section id="home" class="relative min-h-screen flex flex-col justify-center items-center px-6 overflow-hidden pt-20">
+        <!-- <div class="mb-8 opacity-80">
+            <svg width="120" height="120" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M30 40C30 20 50 10 70 20C80 25 85 40 80 55" stroke="#B35637" stroke-width="2" stroke-linecap="round"/>
+                <path d="M20 80C25 60 45 55 60 65C75 75 85 65 90 50" stroke="#B35637" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </div> -->
+        
+        <!-- <h1 class="text-5xl md:text-6xl text-center text-clay mb-6 leading-[0.9]">
+            where your latte<br>
+            <span class="italic font-normal">comes with a company!</span>
+        </h1> -->
+        <!-- <p class="text-stone-500 uppercase tracking-[0.4em] text-xs mb-12">Karachi’s Newest Cat Cafè</p> -->
+        
+        <div class="w-full max-w-5xl h-[450px] rounded-3xl overflow-hidden shadow-2xl">
+            <a href="#gallery">
+                <img src="./assets/img/gato-hero-img.png" class="w-full h-full object-cover" alt="Gato Gato Hero">
+            </a>
+        </div>
+        
+        <!-- Slot section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-5xl mt-12">
+            <div class="bg-white/40 border border-clay/20 p-6 rounded-2xl backdrop-blur-sm">
+                <h3 class="brand-font text-clay text-xl mb-2">The Experience</h3>
+                <p class="text-sm text-stone-600">A warm, cozy place to enjoy great coffee and spend time with friendly cats. </p>
+            </div>
+            
+            <div class="bg-clay text-white p-6 rounded-2xl shadow-xl shadow-clay/20">
+                <h3 class="brand-font text-xl mb-1">Open Hours</h3>
+                <p class="text-xs uppercase tracking-widest opacity-80 mb-2">Tuesday — Sunday</p>
+                <p class="text-3xl font-bold">3PM — 12AM</p>
+                <p class="text-[10px] mt-2 opacity-70 italic">Monday: Rest day for the cats</p>
+            </div>
+
+            <div class="bg-darkbrown text-white p-6 rounded-2xl backdrop-blur-sm text-left">
+                <h3 class="brand-font text-xl mb-2 text-center">Timing Slots</h3>
+                <div class="flex items-center justify-between pb-2">
+                    <span class="text-xs uppercase tracking-tighter">Session</span>
+                    <span class="text-sm">20 Minutes</span>
+                </div>
+                <div class="flex items-center justify-between pt-2">
+                    <span class="text-xs uppercase tracking-tighter">Sanitization</span>
+                    <span class="text-sm">10 Min Break</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-32 px-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="grid md:grid-cols-12 gap-12 items-start">
+                <div class="md:col-span-5">
+                    <h2 class="text-4xl text-clay brand-font mb-8">Our story began with two simple loves: <br><span class="italic underline decoration-1 underline-offset-8">cats and coffee.</span></h2>
+                    </div>
+                <div class="md:col-span-7 text-stone-700 space-y-6 text-lg leading-relaxed">
+                    <p>Over the years, we found ourselves drawn to cat cafés around the world—warm, calming spaces that instantly felt special. Every visit sparked the same question: <span class="italic text-clay">why doesn’t Karachi have something like this?</span></p>
+                    
+                    <p>Cats have always been part of our homes. Having “too many cats” was never an issue—it was normal for us. Turning that lifelong love into something we could share felt like the most natural step.</p>
+                    
+                    <div class="bg-white/40 p-8 rounded-2xl border border-clay/20 shadow-sm italic">
+                        "This is a family owned cafe of 3 young women and a teenager boy, who turned a shared idea into a dream we couldn’t ignore. Our goal was simple: to create a cozy space Karachi was missing, where good coffee, comfort food, and friendly cats come together."
+                    </div>
+                    
+                    <p>This café is our love letter to the city, cats, and to anyone who needs a pause from the rush.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="py-24 px-6 bg-stone-100/50">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                <div>
+                    <h2 class="text-5xl text-clay brand-font mb-2">The Space</h2>
+                    <p class="text-stone-500 uppercase tracking-widest text-xs">A glimpse into your new living room</p>
+                </div>
+                <p class="max-w-xs text-sm italic text-stone-500 text-right">"Welcome in—make yourself comfortable. The cats already have."</p>
+            </div>
+
+            <div class="pswp-gallery grid grid-cols-2 md:grid-cols-4 gap-4" id="gato-gallery">
+                <a href="./assets/img/gallery-1.jpg" 
+                   data-pswp-width="1280" data-pswp-height="958" target="_blank" class="h-80 overflow-hidden rounded-2xl shadow-lg">
+                    <img src="./assets/img/gallery-1.jpg" alt="Cafe Interior" class="w-full h-full object-cover hover:scale-110 transition duration-700">
+                </a>
+                <a href="./assets/img/gallery-2.jpeg" 
+                   data-pswp-width="1040" data-pswp-height="1280" target="_blank" class="h-80 overflow-hidden rounded-2xl shadow-lg md:mt-12">
+                    <img src="./assets/img/gallery-2.jpeg" alt="Cat Relaxing" class="w-full h-full object-cover hover:scale-110 transition duration-700">
+                </a>
+                <a href="./assets/img/gallery-3.jpeg" 
+                   data-pswp-width="1048" data-pswp-height="1280" target="_blank" class="h-80 overflow-hidden rounded-2xl shadow-lg">
+                    <img src="./assets/img/gallery-3.jpeg" alt="Coffee Pour" class="w-full h-full object-cover hover:scale-110 transition duration-700">
+                </a>
+                <a href="./assets/img/gallery-4.jpeg" 
+                   data-pswp-width="970" data-pswp-height="1280" target="_blank" class="h-80 overflow-hidden rounded-2xl shadow-lg md:mt-12">
+                    <img src="./assets/img/gallery-4.jpeg" alt="Cat Close Up" class="w-full h-full object-cover hover:scale-110 transition duration-700">
+                </a>
+                <a href="./assets/img/gallery-5.jpeg" 
+                   data-pswp-width="966" data-pswp-height="1280" target="_blank" class="h-80 overflow-hidden rounded-2xl shadow-lg">
+                    <img src="./assets/img/gallery-5.jpeg" alt="Cat Close Up" class="w-full h-full object-cover hover:scale-110 transition duration-700">
+                </a>
+                <a href="./assets/img/gallery-6.jpeg" 
+                   data-pswp-width="1320" data-pswp-height="1513" target="_blank" class="h-80 overflow-hidden rounded-2xl shadow-lg md:mt-12">
+                    <img src="./assets/img/gallery-6.jpeg" alt="Cat Close Up" class="w-full h-full object-cover hover:scale-110 transition duration-700">
+                </a>
+                <a href="./assets/img/gallery-7.jpeg" 
+                   data-pswp-width="880" data-pswp-height="1280" target="_blank" class="h-80 overflow-hidden rounded-2xl shadow-lg">
+                    <img src="./assets/img/gallery-7.jpeg" alt="Cat Close Up" class="w-full h-full object-cover hover:scale-110 transition duration-700">
+                </a>
+                <a href="./assets/img/gallery-8.jpeg" 
+                   data-pswp-width="1240" data-pswp-height="1600" target="_blank" class="h-80 overflow-hidden rounded-2xl shadow-lg md:mt-12">
+                    <img src="./assets/img/gallery-8.jpeg" alt="Cat Close Up" class="w-full h-full object-cover hover:scale-110 transition duration-700">
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="bg-clay text-[#E8D8C3] py-24 px-6 relative overflow-hidden">
+        <div class="absolute top-0 left-0 text-[15rem] font-bold opacity-5 select-none -translate-x-20 -translate-y-20 brand-font">gató</div>
+        
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <h2 class="text-4xl md:text-6xl brand-font mb-12">visit the gató</h2>
+            <div class="grid md:grid-cols-3 gap-12 text-sm uppercase tracking-[0.2em]">
+                <div class="space-y-4">
+                    <h4 class="font-bold border-b border-[#E8D8C3]/30 pb-2">Location</h4>
+                    <p><a href="https://maps.app.goo.gl/Qo7AFtb9PufzKFUYA" target="_blank">Tahami Commercial, 36c Zulfiqar Street No. 3, D.H.A. Phase 8 Zulfiqar & Al Murtaza Commercial Area Phase 8 Defence Housing Authority, Karachi, 75500</a></p>
+                </div>
+                <div class="space-y-4">
+                    <h4 class="font-bold border-b border-[#E8D8C3]/30 pb-2">Hours</h4>
+                    <p>Tue - Sun: 3PM — 12AM</p>
+                    <p>Monday: Rest day for the cats</p>
+                </div>
+                <div class="space-y-4">
+                    <h4 class="font-bold border-b border-[#E8D8C3]/30 pb-2">Connect</h4>
+                    <p><a href="https://www.instagram.com/gato.khi/" target="_blank">@gatogato.khi</a></p>
+                </div>
+            </div>
+            <div class="mt-20 pt-10 border-t border-[#E8D8C3]/10">
+                <p class="text-xs opacity-60">© 2026 GATÓ. ALL RIGHTS RESERVED.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.3/dist/photoswipe-lightbox.esm.js';
+        const lightbox = new PhotoSwipeLightbox({
+            gallery: '#gato-gallery',
+            children: 'a',
+            pswpModule: () => import('https://unpkg.com/photoswipe@5.4.3/dist/photoswipe.esm.js')
+        });
+        lightbox.init();
+    </script>
+</body>
+</html>

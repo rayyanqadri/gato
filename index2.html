@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gató gató | Karachi’s Living Cafè</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.3/dist/photoswipe.css">
+    <style>
+        :root {
+            --clay: #B35637; /* Logo color  */
+            --cream: #E8D8C3; /* Background color  */
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--cream); color: #3E322E; }
+        h1, h2, h3, .brand-font { font-family: 'Playfair Display', serif; }
+        .text-clay { color: var(--clay); }
+        .bg-clay { background-color: var(--clay); }
+    </style>
+</head>
+<body>
+
+    <nav class="fixed w-full z-50 bg-[#E8D8C3]/90 backdrop-blur-md border-b border-clay/10">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex flex-col leading-none">
+                <span class="text-2xl font-bold tracking-tight text-clay brand-font">gató gató</span> [cite: 3]
+            </div>
+            <div class="hidden md:flex space-x-8 text-[10px] uppercase tracking-[0.2em] font-bold text-stone-600">
+                <a href="#home" class="hover:text-clay transition">Home</a>
+                <a href="#about" class="hover:text-clay transition">The Story</a>
+                <a href="#slots" class="hover:text-clay transition">Experience</a>
+                <a href="#gallery" class="hover:text-clay transition">Gallery</a>
+            </div>
+            <a href="#slots" class="bg-clay text-white px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:scale-105 transition">Book Slot</a>
+        </div>
+    </nav>
+
+    <section id="home" class="relative min-h-screen flex flex-col items-center justify-center px-6 pt-24 text-center">
+        <div class="mb-4">
+            <span class="text-clay brand-font text-2xl">gató gató</span> [cite: 3]
+            <p class="text-[10px] uppercase tracking-[0.5em] text-stone-500 mt-1">The City’s Living Cafè</p> [cite: 2]
+        </div>
+
+        <h1 class="text-5xl md:text-8xl text-clay leading-[0.85] mb-8">
+            where your latte <br>
+            <span class="italic font-normal">comes with a company!</span> [cite: 7]
+        </h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-5xl mt-12">
+            <div class="bg-white/40 border border-clay/20 p-6 rounded-2xl backdrop-blur-sm">
+                <h3 class="brand-font text-clay text-xl mb-2">The Experience</h3>
+                <p class="text-sm text-stone-600">A cozy space where specialty coffee meets friendly feline company. </p>
+            </div>
+            
+            <div class="bg-clay text-white p-6 rounded-2xl shadow-xl shadow-clay/20">
+                <h3 class="brand-font text-xl mb-1">Open Hours</h3>
+                <p class="text-xs uppercase tracking-widest opacity-80 mb-2">Tuesday — Sunday</p>
+                <p class="text-3xl font-bold">3PM — 12AM</p>
+                <p class="text-[10px] mt-2 opacity-70 italic">Monday: Rest day for the cats</p>
+            </div>
+
+            <div class="bg-white/40 border border-clay/20 p-6 rounded-2xl backdrop-blur-sm text-left">
+                <h3 class="brand-font text-clay text-xl mb-2 text-center">Timing Slots</h3>
+                <div class="flex items-center justify-between border-b border-clay/10 pb-2">
+                    <span class="text-xs font-bold uppercase tracking-tighter">Session</span>
+                    <span class="text-sm font-semibold">20 Minutes</span>
+                </div>
+                <div class="flex items-center justify-between pt-2">
+                    <span class="text-xs font-bold uppercase tracking-tighter">Sanitization</span>
+                    <span class="text-sm font-semibold">10 Min Break</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-24 px-6 bg-white/30">
+        <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+            <div class="relative">
+                <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=800" class="rounded-3xl shadow-2xl" alt="Feline friend">
+            </div>
+            <div class="space-y-6">
+                <h2 class="text-4xl text-clay brand-font">Our Story</h2> [cite: 8]
+                <p class="text-stone-700 leading-relaxed">
+                    Our story began with two simple loves: cats and coffee. [cite: 8, 9] Over the years, we found ourselves drawn to cat cafés around the world. [cite: 10]
+                </p>
+                <p class="text-stone-600 text-sm">
+                    Turning that lifelong love into something we could share felt like the most natural step. [cite: 14] This is a family owned cafe of 3 young women and a teenager boy. 
+                </p>
+                <p class="italic text-clay">"This café is our love letter to the city, cats, and to anyone who needs a pause." [cite: 17]</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="py-24 px-6">
+        <div class="pswp-gallery grid grid-cols-2 md:grid-cols-4 gap-4 max-w-7xl mx-auto" id="gato-gallery">
+            <a href="https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&q=80&w=1200" data-pswp-width="1200" data-pswp-height="1600" class="h-64 rounded-xl overflow-hidden shadow-md">
+                <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover" alt="Cat">
+            </a>
+            <a href="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=1200" data-pswp-width="1200" data-pswp-height="800" class="h-64 rounded-xl overflow-hidden shadow-md mt-8">
+                <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover" alt="Coffee">
+            </a>
+            <a href="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=1200" data-pswp-width="1200" data-pswp-height="800" class="h-64 rounded-xl overflow-hidden shadow-md">
+                <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover" alt="Space">
+            </a>
+            <a href="https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&q=80&w=1200" data-pswp-width="1200" data-pswp-height="1600" class="h-64 rounded-xl overflow-hidden shadow-md mt-8">
+                <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover" alt="Cat Close">
+            </a>
+        </div>
+    </section>
+
+    <footer class="py-12 text-center text-clay/60 text-xs tracking-widest uppercase">
+        <p>Welcome in—make yourself comfortable. The cats already have. [cite: 18]</p>
+        <p class="mt-4">© 2026 gató gató Karachi</p>
+    </header>
+
+    <script type="module">
+        import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.3/dist/photoswipe-lightbox.esm.js';
+        const lightbox = new PhotoSwipeLightbox({
+            gallery: '#gato-gallery',
+            children: 'a',
+            pswpModule: () => import('https://unpkg.com/photoswipe@5.4.3/dist/photoswipe.esm.js')
+        });
+        lightbox.init();
+    </script>
+</body>
+</html>

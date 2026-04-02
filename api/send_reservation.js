@@ -1,8 +1,11 @@
-// Vercel Serverless function to send reservation emails via SendGrid
+// Vercel Serverless function to send reservation emails via SMTP (Gmail)
 // Required environment variables:
-// - SENDGRID_API_KEY : your SendGrid API key
-// - RECIPIENT_EMAIL  : email address that receives reservation notifications
-// - SENDER_EMAIL     : verified sender email (From) configured in SendGrid
+// - SMTP_USER       : your Gmail address (e.g., you@gmail.com)
+// - SMTP_PASS       : app password (recommended) or SMTP password
+// - SMTP_HOST       : SMTP host (optional, default smtp.gmail.com)
+// - SMTP_PORT       : SMTP port (optional, default 587)
+// - RECIPIENT_EMAIL : email address that receives reservation notifications
+// - SENDER_EMAIL    : From address to show in emails (e.g., "Gató <you@gmail.com>")
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -38,12 +41,28 @@ export default async function handler(req, res) {
     return res.status(400).json({ success: false, error: 'Invalid email' });
   }
 
-  const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
-  const RECIPIENT_EMAIL = process.env.RECIPIENT_EMAIL;
-  const SENDER_EMAIL = process.env.SENDER_EMAIL;
+  // You can either set credentials via Vercel environment variables (recommended)
+  // or hard-code them below by filling DEFAULTS. Hard-coding credentials is
+  // convenient for quick testing but is NOT recommended for production.
+  const DEFAULTS = {
+    // Example placeholders - replace with real values if you want to hard-code here
+    SMTP_USER: 'muhammadrayyan70@gmail.com', // your Gmail address
+    SMTP_PASS: 'pwuaitigkpbyokzu', // e.g. 'app-password'
+    SMTP_HOST: 'smtp.gmail.com',
+    SMTP_PORT: 587,
+    RECIPIENT_EMAIL: 'muhammadrayyan70@gmail.com', // messages will be sent to your Gmail
+    SENDER_EMAIL: 'Gató <muhammadrayyan70@gmail.com>' // From: header shown to recipients
+  };
 
-  if (!SENDGRID_API_KEY || !RECIPIENT_EMAIL || !SENDER_EMAIL) {
-    return res.status(500).json({ success: false, error: 'Server not configured. Missing SendGrid or email env vars.' });
+  const SMTP_USER = process.env.SMTP_USER || DEFAULTS.SMTP_USER;
+  const SMTP_PASS = process.env.SMTP_PASS || DEFAULTS.SMTP_PASS;
+  const SMTP_HOST = process.env.SMTP_HOST || DEFAULTS.SMTP_HOST;
+  const SMTP_PORT = process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : DEFAULTS.SMTP_PORT;
+  const RECIPIENT_EMAIL = process.env.RECIPIENT_EMAIL || DEFAULTS.RECIPIENT_EMAIL;
+  const SENDER_EMAIL = process.env.SENDER_EMAIL || DEFAULTS.SENDER_EMAIL || SMTP_USER;
+
+  if (!SMTP_USER || !SMTP_PASS || !RECIPIENT_EMAIL || !SENDER_EMAIL) {
+    return res.status(500).json({ success: false, error: 'Server not configured. Missing SMTP or email settings. Set env vars or fill DEFAULTS in the function (not recommended for production).' });
   }
 
   // Format the timeslot into readable local time if possible
@@ -68,37 +87,34 @@ export default async function handler(req, res) {
     `Duration (minutes): ${duration || ''}\n\n` +
     `-- End of message --\n`;
 
-  const payload = {
-    personalizations: [
-      {
-        to: [{ email: RECIPIENT_EMAIL }],
-        subject
-      }
-    ],
-    from: { email: SENDER_EMAIL, name: 'Gató Reservations' },
-    reply_to: { email, name },
-    content: [
-      { type: 'text/plain', value: message }
-    ]
-  };
-
+  // Use nodemailer to send via SMTP
   try {
-    const resp = await fetch('https://api.sendgrid.com/v3/mail/send', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${SENDGRID_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
+    // lazy-require nodemailer inside the function
+    const nodemailer = await import('nodemailer');
+
+    const transporter = nodemailer.createTransport({
+      host: SMTP_HOST,
+      port: SMTP_PORT,
+      secure: SMTP_PORT === 465, // true for 465, false for other ports
+      auth: {
+        user: SMTP_USER,
+        pass: SMTP_PASS
+      }
     });
 
-    if (resp.status === 202) {
-      return res.status(200).json({ success: true });
-    } else {
-      const text = await resp.text();
-      return res.status(500).json({ success: false, error: `SendGrid error: ${resp.status} ${text}` });
-    }
+    const mailOptions = {
+      from: SENDER_EMAIL,
+      to: RECIPIENT_EMAIL,
+      replyTo: `${name} <${email}>`,
+      subject,
+      text: message
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    // nodemailer returns an info object; we'll treat any successful send as success
+    return res.status(200).json({ success: true, info });
   } catch (err) {
-    return res.status(500).json({ success: false, error: 'Failed to send email' });
+    // return error with message for debugging (don't leak secrets)
+    return res.status(500).json({ success: false, error: err.message || 'Failed to send email' });
   }
 }

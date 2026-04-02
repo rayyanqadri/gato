@@ -73,9 +73,10 @@
         </h1> -->
         <!-- <p class="text-stone-500 uppercase tracking-[0.4em] text-xs mb-12">Karachi’s Newest Cat Cafè</p> -->
         
-        <div class="w-full max-w-5xl h-[450px] rounded-3xl overflow-hidden shadow-2xl">
+        <div class="w-full max-w-5xl h-[450px] mt-8 md:mt-0 rounded-3xl overflow-hidden shadow-2xl">
             <a href="#gallery">
-                <img src="./assets/img/Gato-Collage-1.png" class="w-full h-full object-cover" alt="Gato Gato Hero">
+                <img src="./assets/img/Gato-Collage-Desktop.png" class="w-full h-full hidden sm:block object-cover" alt="Gato Gato Hero">
+                <img src="./assets/img/Gato-Collage-Mobile.png" class="w-full h-full block sm:hidden object-cover" alt="Gato Gato Hero">
             </a>
         </div>
         
@@ -83,25 +84,42 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-5xl mt-12">
             <div class="bg-white/40 border border-clay/20 p-6 rounded-2xl backdrop-blur-sm">
                 <h3 class="brand-font text-clay text-xl mb-2">The Experience</h3>
-                <p class="text-sm text-stone-600">A warm, cozy place to enjoy great coffee and spend time with friendly cats. </p>
+                <p class="text-sm text-stone-600">A warm cozy place to enjoy great coffee, comfort food and spend time with friendly cats </p>
             </div>
             
             <div class="bg-clay text-white p-6 rounded-2xl shadow-xl shadow-clay/20">
-                <h3 class="brand-font text-xl mb-1">Open Hours</h3>
+                <h3 class="brand-font text-xl mb-2 text-center">Open Hours</h3>
+                
+
+                <div class="flex items-center justify-between pb-2">
+                    <span class="text-xs uppercase tracking-tighter">Mon to Friday</span>
+                    <span class="text-sm">3 pm - 12 am</span>
+                </div>
+                <div class="flex items-center justify-between pt-2">
+                    <span class="text-xs uppercase tracking-tighter">Sat - Sun</span>
+                    <span class="text-sm">2 pm - 2 am</span>
+                </div>
+                <div class="flex items-center justify-center pt-2">
+                    <a href="#" 
+                        class="inline-block px-6 py-2.5 bg-white/40 font-medium text-xs uppercase leading-tight rounded-full shadow-md hover:text-[#B35637] hover:bg-[#E8D8C3] hover:shadow-lg focus:text-[#B35637] focus:bg-[#E8D8C3] focus:shadow-lg focus:outline-none focus:ring-0 active:text-[#B35637] active:bg-[#E8D8C3] active:shadow-lg transition duration-150 ease-in-out">
+                        Book Your Slot
+                    </a>
+                </div>
+                <!-- <h3 class="brand-font text-xl mb-1">Open Hours</h3>
                 <p class="text-xs uppercase tracking-widest opacity-80 mb-2">Monday — Sunday</p>
                 <p class="text-3xl font-bold">3PM — 12AM</p>
-                <p class="text-[10px] mt-2 opacity-70 italic">Monday: Rest day for the cats</p>
+                <p class="text-[10px] mt-2 opacity-70 italic">Monday: Rest day for the cats</p> -->
             </div>
 
             <div class="bg-darkbrown text-white p-6 rounded-2xl backdrop-blur-sm text-left">
                 <h3 class="brand-font text-xl mb-2 text-center">Timing Slots</h3>
                 <div class="flex items-center justify-between pb-2">
-                    <span class="text-xs uppercase tracking-tighter">Session</span>
+                    <span class="text-xs uppercase tracking-tighter">Soft moments</span>
                     <span class="text-sm">20 Minutes</span>
                 </div>
                 <div class="flex items-center justify-between pt-2">
-                    <span class="text-xs uppercase tracking-tighter">Sanitization</span>
-                    <span class="text-sm">10 Min Break</span>
+                    <span class="text-xs uppercase tracking-tighter">Cat therapy</span>
+                    <span class="text-sm">60 Minutes</span>
                 </div>
             </div>
         </div>
@@ -179,11 +197,12 @@
         <div class="absolute top-0 left-0 text-[15rem] font-bold opacity-5 select-none -translate-x-20 -translate-y-20 brand-font">gató</div>
         
         <div class="max-w-4xl mx-auto text-center relative z-10">
-            <h2 class="text-4xl md:text-6xl brand-font mb-12">visit the gató</h2>
+            <h2 class="text-4xl md:text-6xl brand-font mb-12">Visit Gatò</h2>
             <div class="grid md:grid-cols-3 gap-12 text-sm uppercase tracking-[0.2em]">
                 <div class="space-y-4">
-                    <h4 class="font-bold border-b border-[#E8D8C3]/30 pb-2">Location</h4>
-                    <p><a href="https://maps.app.goo.gl/Qo7AFtb9PufzKFUYA" target="_blank">Tahami Commercial, 36c Zulfiqar Street No. 3, D.H.A. Phase 8 Zulfiqar & Al Murtaza Commercial Area Phase 8 Defence Housing Authority, Karachi, 75500</a></p>
+                    <h4 class="font-bold border-b border-[#E8D8C3]/30 pb-2">Contact</h4>
+                    <p><a href="https://maps.app.goo.gl/Qo7AFtb9PufzKFUYA" target="_blank"><b>Location:</b> Tahami Commercial, 36c Zulfiqar Street No. 3, D.H.A. Phase 8 Zulfiqar & Al Murtaza Commercial Area Phase 8 Defence Housing Authority, Karachi, 75500</a></p>
+                    <p><a href="tel:03330333381" target="_blank"><b>Phone:</b> 03330333381</a></p>
                 </div>
                 <div class="space-y-4">
                     <h4 class="font-bold border-b border-[#E8D8C3]/30 pb-2">Hours</h4>
@@ -197,6 +216,7 @@
             </div>
             <div class="mt-20 pt-10 border-t border-[#E8D8C3]/10">
                 <p class="text-xs opacity-60">© 2026 GATÓ. ALL RIGHTS RESERVED.</p>
+                <p class="text-xs opacity-60">Powered by <a href="https://eatx.vercel.app/" target="_blank">EatX</a></p>
             </div>
         </div>
     </footer>

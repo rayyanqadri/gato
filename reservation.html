@@ -33,7 +33,7 @@
             <h1 class="text-3xl brand-font text-clay mb-4">Book a Reservation</h1>
             <p class="text-sm text-stone-600 mb-6">Choose a date, duration and an available time slot. Slots already past for the selected date are hidden.</p>
 
-            <form id="reservation-form" method="post" action="send_reservation.php">
+            <form id="reservation-form" method="post" action="/api/send_reservation">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="text-xs uppercase tracking-wider">Full name</label>
@@ -197,25 +197,38 @@
         // initial state
         timeslotSelect.innerHTML = '<option value="">Select a date and duration first</option>';
 
-        // handle submission via fetch to keep user on same page and show messages
+        // handle submission via fetch (send JSON) to keep user on same page and show messages
         form.addEventListener('submit', async (e)=>{
             e.preventDefault();
             formMsg.textContent = '';
-            const formData = new FormData(form);
+
+            // collect values
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const date = document.getElementById('date').value;
+            const duration = document.querySelector('input[name="duration"]:checked').value;
+            const timeslot = document.getElementById('timeslot').value;
 
             // basic client-side validation
-            if(!formData.get('timeslot')){
+            if(!timeslot){
                 formMsg.textContent = 'Please choose an available time slot.';
                 formMsg.className = 'text-red-600';
                 return;
             }
+
+            const payload = { name, phone, email, date, duration, timeslot };
 
             const submitBtn = document.getElementById('submit-btn');
             submitBtn.disabled = true;
             submitBtn.textContent = 'Sending...';
 
             try{
-                const res = await fetch(form.action, { method: 'POST', body: formData });
+                const res = await fetch(form.action, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
                 const json = await res.json();
                 if(json.success){
                     formMsg.textContent = 'Reservation sent! We will contact you soon.';

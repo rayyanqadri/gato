@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserve a Slot | gató</title>
+    <link rel="icon" type="image/x-icon" href="./assets/img/gato-favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Petrona:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+        :root { --clay: #B35637; --cream: #E8D8C3; --darkbrown:#3d2a22 }
+        body { font-family: 'Petrona', serif; background-color: var(--cream); color: #3E322E; }
+        h1,h2,h3,.brand-font{ font-family: 'GabrielSans', serif; }
+        .text-clay{ color:var(--clay) }
+        .bg-clay{ background-color:var(--clay) }
+    </style>
+</head>
+<body>
+    <nav class="fixed w-full z-50 bg-[#E8D8C3]/90 backdrop-blur-sm border-b border-[#D1C3B0]">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <img src="./assets/img/gato-logo-img.svg" class="w-16 h-16" alt="Gato Logo">
+                <span class="text-sm uppercase tracking-[0.2em]">Reserve</span>
+            </div>
+            <div>
+                <a href="index.html" class="text-sm text-stone-600 hover:text-clay">Back to Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="min-h-screen flex items-start justify-center pt-28 px-6 pb-24">
+        <div class="w-full max-w-3xl bg-white/60 rounded-3xl p-10 shadow-lg border border-clay/20">
+            <h1 class="text-3xl brand-font text-clay mb-4">Book a Reservation</h1>
+            <p class="text-sm text-stone-600 mb-6">Choose a date, duration and an available time slot. Slots already past for the selected date are hidden.</p>
+
+            <form id="reservation-form" method="post" action="send_reservation.php">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-xs uppercase tracking-wider">Full name</label>
+                        <input type="text" name="name" id="name" required class="w-full mt-2 p-3 rounded-lg border" placeholder="Your name">
+                    </div>
+                    <div>
+                        <label class="text-xs uppercase tracking-wider">Phone</label>
+                        <input type="tel" name="phone" id="phone" required class="w-full mt-2 p-3 rounded-lg border" placeholder="0333xxxxxxx">
+                    </div>
+                    <div>
+                        <label class="text-xs uppercase tracking-wider">Email</label>
+                        <input type="email" name="email" id="email" required class="w-full mt-2 p-3 rounded-lg border" placeholder="you@example.com">
+                    </div>
+                    <div>
+                        <label class="text-xs uppercase tracking-wider">Date</label>
+                        <input type="date" name="date" id="date" required class="w-full mt-2 p-3 rounded-lg border">
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <label class="text-xs uppercase tracking-wider">Duration</label>
+                    <div class="mt-2 flex items-center gap-4">
+                        <label class="inline-flex items-center"><input type="radio" name="duration" value="20" checked class="mr-2" />20 Minutes</label>
+                        <label class="inline-flex items-center"><input type="radio" name="duration" value="60" class="mr-2" />60 Minutes</label>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <label class="text-xs uppercase tracking-wider">Available time slots</label>
+                    <select name="timeslot" id="timeslot" required class="w-full mt-2 p-3 rounded-lg border">
+                        <option value="">Select a date and duration first</option>
+                    </select>
+                    <p id="slots-info" class="text-xs text-stone-500 mt-2"></p>
+                </div>
+
+                <div class="mt-6 flex items-center gap-4">
+                    <button type="submit" id="submit-btn" class="bg-clay text-[#E8D8C3] px-6 py-2 rounded-full font-bold">Confirm Reservation</button>
+                    <div id="form-msg" class="text-sm"></div>
+                </div>
+            </form>
+            <p class="mt-6 text-xs text-stone-500">Note: By default slots are generated every 20 minutes. If you choose 60 minutes, available start times are shown every 60 minutes and only when the full duration fits within opening hours.</p>
+        </div>
+    </main>
+
+    <script>
+        // Business hours configuration
+        // Weekday (Mon-Fri): 15:00 - 24:00
+        // Weekend (Sat-Sun): 14:00 - 02:00 (next day)
+        const WEEKDAY_START = { h:15, m:0 };
+        const WEEKDAY_END = { h:24, m:0 };
+        const WEEKEND_START = { h:14, m:0 };
+        const WEEKEND_END = { h:2, m:0 };
+        const STEP_MINUTES = 20; // present slots every 20 minutes
+
+        const dateInput = document.getElementById('date');
+        const durationInputs = document.querySelectorAll('input[name="duration"]');
+        const timeslotSelect = document.getElementById('timeslot');
+        const slotsInfo = document.getElementById('slots-info');
+        const form = document.getElementById('reservation-form');
+        const formMsg = document.getElementById('form-msg');
+
+        // set min date to today
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth()+1).padStart(2,'0');
+        const dd = String(today.getDate()).padStart(2,'0');
+        dateInput.min = `${yyyy}-${mm}-${dd}`;
+
+        function pad(n){ return String(n).padStart(2,'0'); }
+        function formatTime(d){
+            // d is Date
+            let h = d.getHours();
+            let m = d.getMinutes();
+            const ampm = h>=12? 'PM':'AM';
+            h = h%12; if(h===0) h=12;
+            return `${h}:${pad(m)} ${ampm}`;
+        }
+
+        function isWeekend(day){ // JS: 0=Sun,6=Sat
+            return day===0 || day===6;
+        }
+
+        function generateSlotsFor(dateStr, durationMinutes){
+            timeslotSelect.innerHTML = '';
+            slotsInfo.textContent = '';
+
+            if(!dateStr) {
+                timeslotSelect.innerHTML = '<option value="">Select a date first</option>';
+                return;
+            }
+
+            const selectedDate = new Date(dateStr + 'T00:00:00');
+            const weekday = selectedDate.getDay();
+            let open, close;
+            if(isWeekend(weekday)){
+                open = WEEKEND_START; close = WEEKEND_END;
+            } else {
+                open = WEEKDAY_START; close = WEEKDAY_END;
+            }
+
+            // build start and end Date objects
+            const start = new Date(selectedDate);
+            start.setHours(open.h, open.m, 0, 0);
+
+            let end = new Date(selectedDate);
+            end.setHours(close.h, close.m, 0, 0);
+            // if close hour <= open hour, it means close next day (e.g., 2 AM)
+            if(close.h <= open.h){
+                end.setDate(end.getDate()+1);
+            }
+
+            // decide step: if user requested 60 minutes, show start times every 60 minutes;
+            // otherwise use the standard 20-minute step
+            // present start times only where (start + duration) <= end
+            const slots = [];
+            let cursor = new Date(start);
+            while(true){
+                const slotEnd = new Date(cursor.getTime() + durationMinutes*60*1000);
+                if(slotEnd.getTime() > end.getTime()) break;
+                slots.push(new Date(cursor));
+                const step = (durationMinutes === 60) ? 60 : STEP_MINUTES;
+                cursor = new Date(cursor.getTime() + step*60*1000);
+            }
+
+            // filter out past slots if selectedDate is today
+            const now = new Date();
+            const isToday = (selectedDate.getFullYear()===now.getFullYear() && selectedDate.getMonth()===now.getMonth() && selectedDate.getDate()===now.getDate());
+            const filtered = slots.filter(s => {
+                if(!isToday) return true;
+                // require slot start to be strictly in the future
+                return s.getTime() > now.getTime();
+            });
+
+            if(filtered.length===0){
+                timeslotSelect.innerHTML = '<option value="">No available slots for this date</option>';
+                slotsInfo.textContent = 'No slots. Try another date or duration.';
+                return;
+            }
+
+            // populate select
+            timeslotSelect.innerHTML = '';
+            filtered.forEach(s => {
+                const option = document.createElement('option');
+                option.value = s.toISOString(); // send full datetime to server
+                option.textContent = formatTime(s);
+                timeslotSelect.appendChild(option);
+            });
+            slotsInfo.textContent = `${filtered.length} slot(s) available.`;
+        }
+
+        // listeners
+        dateInput.addEventListener('change', ()=>{
+            const duration = Number(document.querySelector('input[name="duration"]:checked').value);
+            generateSlotsFor(dateInput.value, duration);
+        });
+        durationInputs.forEach(r=> r.addEventListener('change', ()=>{
+            const duration = Number(document.querySelector('input[name="duration"]:checked').value);
+            generateSlotsFor(dateInput.value, duration);
+        }));
+
+        // initial state
+        timeslotSelect.innerHTML = '<option value="">Select a date and duration first</option>';
+
+        // handle submission via fetch to keep user on same page and show messages
+        form.addEventListener('submit', async (e)=>{
+            e.preventDefault();
+            formMsg.textContent = '';
+            const formData = new FormData(form);
+
+            // basic client-side validation
+            if(!formData.get('timeslot')){
+                formMsg.textContent = 'Please choose an available time slot.';
+                formMsg.className = 'text-red-600';
+                return;
+            }
+
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+
+            try{
+                const res = await fetch(form.action, { method: 'POST', body: formData });
+                const json = await res.json();
+                if(json.success){
+                    formMsg.textContent = 'Reservation sent! We will contact you soon.';
+                    formMsg.className = 'text-green-700';
+                    form.reset();
+                    timeslotSelect.innerHTML = '<option value="">Select a date and duration first</option>';
+                } else {
+                    formMsg.textContent = json.error || 'Failed to send reservation.';
+                    formMsg.className = 'text-red-600';
+                }
+            }catch(err){
+                formMsg.textContent = 'Network or server error.';
+                formMsg.className = 'text-red-600';
+            }finally{
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Confirm Reservation';
+            }
+        });
+    </script>
+</body>
+</html>
